@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
 \usepackage{multirow,booktabs}
@@ -35,10 +35,10 @@
 
 \usepackage[superscript,biblabel]{cite}
 \usepackage{hyperref}
-\hypersetup{colorlinks,linkcolor={blue},citecolor={blue},urlcolor={orange}} 
+\hypersetup{colorlinks,linkcolor={blue},citecolor={blue},urlcolor={orange}}
 
 \usepackage{graphicx}
-% Path relative to the main .tex file 
+% Path relative to the main .tex file
 \graphicspath{ {./images/} }
 
 \title{\textbf{Practical integrator using operational amplifier}}
@@ -55,6 +55,7 @@
   \maketitle
 
   \section{Aim}
+  To design and test a $\mu$A741-based voltage integrator for a sinusoidal input $V_{in}(t) = 2sin(4000\pi t)$.
 
   \section{Components required}
 
@@ -69,10 +70,11 @@
   \section{Waveforms}
 
   \section{Observations}
+  \begin{figure}
+    \includegraphics[width=\textwidth]{images/results_q1.jpeg}
+    \caption{Result}
+  \end{figure}
 
   \section{Result}
-  
-  % \bibliography{bibliography}
-  % \bibliographystyle{ieeetr}
 
 \end{document}

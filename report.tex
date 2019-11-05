@@ -52,6 +52,8 @@
 \date{}
 
 \begin{document}
+  % TODO Add NITK logo
+  % TODO Add 'AIC Report' and date
   \maketitle
 
   \tableofcontents
@@ -68,18 +70,21 @@
       \item Capacitor C= 0.01 $\mu$F
       \item Breadboard
       \item Digital Storage Oscilloscope
-      \item Wires
+      \item Jumper wires
       \item Signal generator
     \end{itemize}
 
 
   \section*{Circuit diagram}
+    % TODO Add circuit in LaTeX
     \includegraphics[scale=0.5]{circuit}\\
+    % TODO Add captions and labels
     \includegraphics[scale=0.25]{practical_circuit}
 
 
   \newpage
   \section{Theory}
+    % TODO Complete Theory
     In an integrator, the output voltage is proportional to the integral of the input.
     The response of an op amp circuit with feedback will reflect the characteristics of the feedback elements.
     In order to achieve integration, the feedback network can be constructed using a capacitor.
@@ -102,6 +107,7 @@
 
   \newpage
   \section{Design}
+    % TODO Stepwise design
     Q. Design a $\mu$A741 based voltage integrator for a sinusoidal input $v_{in} = 2sin(4000\pi t)$.
     The integrator gain should be unity i.e. the output should have a peak to peak value same as that of the input.
     Also, it is required that the phase error should be kept below 5\%.
@@ -110,6 +116,7 @@
 
 
   \section{Calculations}
+    % TODO Merge calculations with stepwise design
     Let $C=0.01\mu F$ , \\
     $f_{in}=2000 Hz$\\
     $f_{-3dB}=\frac{f_{in}}{15} = 133.33 Hz$ \\
@@ -122,12 +129,16 @@
 
   \newpage
   \section{Simulation}
+    % TODO Convert to white background images
+    % TODO Add captions and labels
     \includegraphics[width=\textwidth]{sim_plot1}
     \includegraphics[width=\textwidth]{sim_plot2}
 
+  % TODO Add a separate section for our implementation
 
   \newpage
   \section{Waveforms}
+    % TODO Add captions and labels
     \includegraphics[width=\textwidth/2]{results_q1}
     \includegraphics[width=\textwidth/2]{results_q3}
     \includegraphics[width=\textwidth/2]{results_q4_2}
@@ -135,8 +146,10 @@
 
   \newpage
   \section{Observations}
+    % TODO Convert from QnA to report format
     Q. Measure DC gain, -3dB frequency $f_{3dB}$, unity gain frequency $f_u$, roll-off rate and phase shift.
 
+    % TODO Show calculation that was used to obtain these results
     \begin{itemize}
       \item[] DC gain = 14.89
       \item[] -3dB frequency = 132 Hz
@@ -164,5 +177,6 @@
 
   \newpage
   \section{Results \& Conclusions}
+    % TODO Add more results and better conclusions
     The $\mu$A741 based voltage integrator was designed and implemented successfully.
 \end{document}

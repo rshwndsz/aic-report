@@ -61,25 +61,96 @@
   To design and test a $\mu$A741-based voltage integrator.
 
   \section*{Components required}
+  $\mu$A741 OpAmp\\
+  Resistors R= 120k$\Omega$, 3.3k$\Omega$, 4.7k$\Omega$\\
+  Capacitor C= 0.01 $\mu$F\\
+  Breadboard\\
+  Digital Storage Oscilloscope\\
+  Wires\\
+  Function Generator\\
+  \section*{Circuit diagram}
+  \includegraphics[scale=0.5]{circuit}
+  \includegraphics[scale=0.25]{practical_circuit}
+	
 
   \newpage
   \section{Theory}
+In an integrator, the output voltage is proportional to the integral of the input. The response of an op amp circuit with feedback will reflect the characteristics of the feedback elements.In order to achieve integration, the feedback network can be constructed using a capacitor.
+  
+  In a practical integrator, one can overcome the limitations of an ideal integrator by adding resistor $R_{f}$ in parallel with capacitor C .This $R_{f}$ avoids op-amp going into open loop configuration at low frequencies.
+  
+Frequency response of a practical integrator,\\
+\begin{align*}
+H(s) &=\frac{-R_{F} || \frac{1}{Cs}}{R} \\
+H(j\omega)&=\frac{-R_{F}}{R} \left[ \frac{1}{1+R_{F}Cj\omega} \right] \\
+\end{align*}
+
+This gives,
+\begin{align*}
+|H(j\omega)|&=\frac{R_{F}}{R}\frac{1}{\sqrt{1+\omega^{2}R_{F}^{2}C^{2}}} \\
+\angle H(j\omega) &= \pi - tan^{-1}(\omega R_{F}C)
+\end{align*}
+  
+  
 
   \newpage
   \section{Design}
+  Q. Design and test a $\mu$A741 based voltage integrator for a sinusoidal input $v_{in}=2sin(4000\pi t)$.
+  The integrator gain should be unity i.e. the output should have a peak to peak value same as that of the input. Also, it is required that the phase error should be kept below 5\%.
+  Design the practical integrator with $f_{-3db} = \frac{f_{in}}{15}$.
+   Make sure all resistances are of the order of k$\Omega$.
+  
+  
 
   \section{Calculations}
+  Let $C=0.01\mu F$ , \\
+  $f_{in}=2000 Hz$\\
+  $f_{-3dB}=\frac{f_{in}}{15} = 133.33 Hz$ \\
+  $\frac{1}{2\pi R_{F}C} = 133.33$\\
+  $\frac{1}{2\pi RC} = 2000$\\
+  $R=7.96k\Omega, R_{F}=119.37k\Omega$\\
+  Expected DC gain= $\frac{R_{f}}{R}=15.25$\\
+  Expected phase shift= $\frac{\pi}{2}=1.57 rad$
+  
+
+
 
   \newpage
   \section{Simulation}
+  \includegraphics[scale=0.5]{sim_plot1}
+  \includegraphics[scale=0.5]{sim_plot2}
 
   \newpage
   \section{Waveforms}
+  \includegraphics[scale=0.5]{results_q1}
+  \includegraphics[scale=0.5]{results_q3}
+  \includegraphics[scale=0.5]{results_q4_2}
+  
 
   \newpage
   \section{Observations}
+  Q. Measure DC gain, -3dB frequency, unity gain frequency, roll-off rate and phase shift.\\
+   DC gain = 14.89 \\
+  -3dB frequency=132 Hz\\
+   Unity gain frequency= 2.07 kHz \\
+   Roll-off rate = -18.35 dB/decade\\
+   Phase shift= 1.608 rad, an error of 2.4\% \\
+   
+  1. What happens if the feedback resistor $R_{F}$ is removed from the circuit? Give reasons.\\
+$V_{out}=\pm V_{sat}$ due to the capacitor acting as an open circuit at low frequencies. This sends the opamp into an open loop configuraton. \\
+
+2. Apply a square wave of 4V peak-to-peak and frequency 2 kHz. What to you see and why?\\
+A triangular waveform is obtained as a result of the square wave being integrated. \\
+
+3. Change the frequency of the square wave input to 130 Hz. What do you observe and why?\\
+The triangular waveform is now clipped at the $\pm V_{sat}$ levels.
+$C\Delta V=I\Delta V$\\
+Substituting $C=0.01\mu F$, $I=\frac{2}{8k}$, $t=\frac{0.5}{130}$, \\
+$\Delta V = 96.15 V$
+Since $\Delta V > 2V_{sat}$, $V_{out}$ gets clipped.
+ 
 
   \newpage
   \section{Results}
-
+ The $\mu$A741 based voltage integrator was designed and implemented successfully.
 \end{document}

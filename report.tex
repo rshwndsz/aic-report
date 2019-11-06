@@ -111,18 +111,23 @@
     Q. Design a $\mu$A741 based voltage integrator with unity gain and
     $f_{-3dB} = f_{in}/15$ for a sinusoidal input
     $v_{in} = 2 sin(4000\pi t)$, keeping the phase error below 5\%.
+    \begin{align*}
+        \text{Let C} \! &=0.01\mu F , \\
+        f_{in} &=2000 Hz\\
+        f_{-3dB} &=\frac{f_{in}}{15} = 133.33 Hz \\
+        \frac{1}{2\pi R_{F}C} &= 133.33\\
+        \frac{1}{2\pi RC} &= 2000\\
+        R &=7.96k\Omega\\
+        R_{F} &=119.37k\Omega\\
+    \end{align*}
 
 
   \section{Calculations}
     % TODO Merge calculations with stepwise design
-    Let $C=0.01\mu F$ , \\
-    $f_{in}=2000 Hz$\\
-    $f_{-3dB}=\frac{f_{in}}{15} = 133.33 Hz$ \\
-    $\frac{1}{2\pi R_{F}C} = 133.33$\\
-    $\frac{1}{2\pi RC} = 2000$\\
-    $R=7.96k\Omega, R_{F}=119.37k\Omega$\\
-    Expected DC gain= $\frac{R_{f}}{R}=15.25$\\
-    Expected phase shift= $\frac{\pi}{2}=1.57 rad$
+  \begin{align*}
+  \text{Expected DC gain} &= \frac{R_{f}}{R}=15.25\\
+  \text{Expected phase shift} &= \frac{\pi}{2}=1.57 rad
+  \end{align*}
 
 
   \newpage
@@ -153,7 +158,7 @@
       \item[] -3dB frequency = 132 Hz
       \item[] Unity gain frequency = 2.07 kHz
       \item[] Roll-off rate = -18.35 dB/decade
-      \item[] Phase shift = 1.608 rad, an error of 2.4\%
+      \item[] Phase shift = 1.608 rad or $92.13^{\circ}$, an error of 2.4\%
     \end{itemize}
 
     Q. What happens if the feedback resistor $R_{F}$ is removed from the circuit? Give reasons.
@@ -162,15 +167,19 @@
 
     Q. Apply a square wave of 4V peak-to-peak and frequency 2 kHz. What to you see and why?
 
-    A triangular waveform is obtained as a result of the square wave being integrated.
+    A triangular waveform is obtained as a result of the square wave being integrated. \\
+
+$C\Delta V=I\Delta t$\\
+Substituting $C=0.01\mu F$, $I=\frac{2}{8k}$, $\Delta t=\frac{0.5}{2000}$, \\
+$\Delta V = 6.25 V$\\
+The output triangular waveform has a peak to peak voltage of around 6.25 V.
 
     Q. Change the frequency of the square wave input to 130 Hz. What do you observe and why?
 
-    The triangular waveform is now clipped at the $\pm V_{sat}$ levels.
-    $C\Delta V=I\Delta V$
-    Substituting $C=0.01\mu F$, $I=\frac{2}{8k}$, $t=\frac{0.5}{130}$,
-    $\Delta V = 96.15 V$
-    Since $\Delta V > 2V_{sat}$, $V_{out}$ gets clipped.
+    $C\Delta V=I\Delta t$\\
+Substituting $C=0.01\mu F$, $I=\frac{2}{8k}$, $\Delta t=\frac{0.5}{130}$, \\
+$\Delta V = 96.15 V$ \\
+Since $\Delta V > 2V_{sat}$, $V_{out}$ gets clipped.
 
 
   \newpage

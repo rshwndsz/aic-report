@@ -86,21 +86,21 @@
   \section{Theory}
     % TODO Complete Theory
     In an integrator, the output voltage is proportional to the integral of the input.
-    The response of an op amp circuit with feedback will reflect the characteristics of the feedback elements.
-    In order to achieve integration, the feedback network can be constructed using a capacitor.
+    The response of an opamp circuit with feedback will reflect the characteristics of the feedback elements.
+    In order to achieve integration, the feedback network is constructed using a capacitor.
 
-    In a practical integrator, one can overcome the limitations of an ideal integrator by adding resistor $R_{f}$ in parallel with capacitor C.
-    This $R_{f}$ avoids op-amp going into open loop configuration at low frequencies.
+    In a practical integrator, one can overcome the limitations of an ideal integrator by adding resistor $R_{f}$ in parallel with capacitor $C$.
+    $R_{f}$ prevents the opamp from going into open loop configuration at low frequencies.
 
-    Frequency response of a practical integrator
+    Frequency response of a practical integrator is given by,
     \begin{align*}
-    H(s) &=\frac{-R_{F} || \frac{1}{Cs}}{R} \\
-    H(j\omega)&=\frac{-R_{F}}{R} \left[ \frac{1}{1+R_{F}Cj\omega} \right] \\
+      H(s) &= \frac{-R_{F} || \frac{1}{Cs}}{R} \\
+      H(j\omega) &= \frac{-R_{F}}{R} \left[ \frac{1}{1+R_{F}Cj\omega} \right] \\
     \end{align*}
 
-    This gives,
+    The magnitude and phase response are given by,
     \begin{align*}
-    |H(j\omega)|&=\frac{R_{F}}{R}\frac{1}{\sqrt{1+\omega^{2}R_{F}^{2}C^{2}}} \\
+    |H(j\omega)| &= \frac{R_{F}}{R}\frac{1}{\sqrt{1+\omega^{2}R_{F}^{2}C^{2}}} \\
     \angle H(j\omega) &= \pi - tan^{-1}(\omega R_{F}C)
     \end{align*}
 
@@ -108,20 +108,18 @@
   \newpage
   \section{Design}
     % TODO Stepwise design
-    Q. Design a $\mu$A741 based voltage integrator for a sinusoidal input $v_{in} = 2sin(4000\pi t)$.
-    The integrator gain should be unity i.e. the output should have a peak to peak value same as that of the input.
-    Also, it is required that the phase error should be kept below 5\%.
-    Design the practical integrator with $f_{-3db} = \frac{f_{in}}{15}$.
-    Make sure all resistances are of the order of k$\Omega$.
-   \begin{align*}
-  \text{Let C} \! &=0.01\mu F , \\
-  f_{in} &=2000 Hz\\
-  f_{-3dB} &=\frac{f_{in}}{15} = 133.33 Hz \\
-  \frac{1}{2\pi R_{F}C} &= 133.33\\
-  \frac{1}{2\pi RC} &= 2000\\
-  R &=7.96k\Omega\\
-  R_{F} &=119.37k\Omega\\
-  \end{align*}
+    Q. Design a $\mu$A741 based voltage integrator with unity gain and
+    $f_{-3dB} = f_{in}/15$ for a sinusoidal input
+    $v_{in} = 2 sin(4000\pi t)$, keeping the phase error below 5\%.
+    \begin{align*}
+        \text{Let C} \! &=0.01\mu F , \\
+        f_{in} &=2000 Hz\\
+        f_{-3dB} &=\frac{f_{in}}{15} = 133.33 Hz \\
+        \frac{1}{2\pi R_{F}C} &= 133.33\\
+        \frac{1}{2\pi RC} &= 2000\\
+        R &=7.96k\Omega\\
+        R_{F} &=119.37k\Omega\\
+    \end{align*}
 
 
   \section{Calculations}

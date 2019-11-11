@@ -49,16 +49,20 @@
   Sathvik S Prabhu\\
   171EC146
 }
-\date{}
+\date{13 November 2019}
 
 \begin{document}
   % TODO Add NITK logo
   % TODO Add 'AIC Report' and date
   \maketitle
-
-  \tableofcontents
+  \thispagestyle{empty}
 
   \newpage
+  \tableofcontents
+  \thispagestyle{empty}
+
+  \newpage
+  \setcounter{page}{1}
   \section{Aim}
   To design, implement and test a $\mu$A741-based voltage integrator.
 
@@ -67,20 +71,27 @@
     \begin{itemize}
       \item $\mu$A741 OpAmp
       \item Resistors R = 120k$\Omega$, 3.3k$\Omega$, 4.7k$\Omega$
-      \item Capacitor C= 0.01 $\mu$F
-      \item Breadboard
-      \item Digital Storage Oscilloscope
-      \item Jumper wires
+      \item Capacitor C = 0.01 $\mu$F
       \item Signal generator
+      \item Digital Storage Oscilloscope
+      \item Breadboard
+      \item Jumper wires
     \end{itemize}
 
 
   \section*{Circuit diagram}
     % TODO Add circuit in LaTeX
-    \includegraphics[scale=0.5]{circuit}\\
-    % TODO Add captions and labels
-    \includegraphics[scale=0.25]{practical_circuit}
+    \begin{figure}
+      \includegraphics[scale=0.5]{circuit}
+      \caption{Circuit diagram}
+      \label{fig:theoretical_circuit}
+    \end{figure}
 
+    \begin{figure}
+      \includegraphics[scale=0.25]{practical_circuit}
+      \caption{Designed circuit implemented on a breadboard}
+      \label{fig:practical_circuit}
+    \end{figure}
 
   \newpage
   \section{Theory}
@@ -93,10 +104,10 @@
     $R_{f}$ prevents the opamp from going into open loop configuration at low frequencies.
 
     Frequency response of a practical integrator is given by,
-    \begin{align*}
+    \begin{align}\label{eq:freq_response}
       H(s) &= \frac{-R_{F} || \frac{1}{Cs}}{R} \\
-      H(j\omega) &= \frac{-R_{F}}{R} \left[ \frac{1}{1+R_{F}Cj\omega} \right] \\
-    \end{align*}
+      H(j\omega) &= \frac{-R_{F}}{R} \left[ \frac{1}{1+R_{F}Cj\omega} \right]
+    \end{align}
 
     The magnitude and phase response are given by,
     \begin{align*}
@@ -104,6 +115,31 @@
     \angle H(j\omega) &= \pi - tan^{-1}(\omega R_{F}C)
     \end{align*}
 
+    \underline{DC gain} is obtained by putting $\omega = 0$ in equation\ref{eq:freq_response}.
+    \begin{equation}
+      DC gain = H(j0) = -\frac{R_f}{R}
+    \end{equation}
+
+    % TODO Add derivation
+    \underline{Phase shift} is given by
+    \begin{equation}\label{eq:phase_shift}
+      \phi = \pi - \tan^{-1}(\omega R_FC)
+    \end{equation}
+
+    % TODO Add derivation
+    \underline{$f_{-3dB}$} or cutoff-frequency is given by
+    \begin{equation}\label{eq:f3db}
+      f_{-3dB} = \frac{1}{2\pi R_FC}
+    \end{equation}
+
+    % TODO Add derivation
+    \underline{$\omega_u$} or unity gain bandwidth is obtained from $|H(j\omega)| = 1$ giving,
+    \begin{equation}\label{eq:unity_gain_bw}
+      \omega_u = \frac{1}{RC}
+    \end{equation}
+
+    % TODO Add reason/derivation
+    \underline{Roll-off rate} for the frequency response of the practical integrator is theoretically -20 $\frac{\text{dB}}{\text{decade}}$.
 
   \newpage
   \section{Design}
@@ -123,10 +159,10 @@
 
 
   \section{Calculations}
-    % TODO Merge calculations with stepwise design
+  % TODO Merge calculations with stepwise design
   \begin{align*}
-  \text{Expected DC gain} &= \frac{R_{f}}{R}=15.25\\
-  \text{Expected phase shift} &= \frac{\pi}{2}=1.57 rad
+    \text{Expected DC gain} &= \frac{R_{f}}{R}=15.25\\
+    \text{Expected phase shift} &= \frac{\pi}{2}=1.57 rad
   \end{align*}
 
 
@@ -137,7 +173,6 @@
     \includegraphics[width=\textwidth]{sim_plot1}
     \includegraphics[width=\textwidth]{sim_plot2}
 
-  % TODO Add a separate section for our implementation
 
   \newpage
   \section{Waveforms}
@@ -149,8 +184,19 @@
 
   \newpage
   \section{Observations}
-    % TODO Convert from QnA to report format
-    Q. Measure DC gain, -3dB frequency $f_{3dB}$, unity gain frequency $f_u$, roll-off rate and phase shift.
+    \textbf{A}. The practical integrator is first designed based on the following constraints:
+    Unity gain, $f_{-3dB} = f_{in}/15$ for a sinusoidal input
+    $v_{in} = 2 sin(4000\pi t)$ and phase error below 5\%.
+
+    A leading phase sinusoidal wave appears at the output of the integrator as shown in figure \ref{fig:results_q1}.
+    The DC gain, -3dB frequency $f_{3dB}$, unity gain frequency $f_u$, roll-off rate and phase shift are noted from the waveforms obtained on the DSO and the phase error is verified to be below 5\%.
+
+    \begin{figure}
+      % TODO Add labels for Vin and Vout
+      \includegraphics[scale=0.25]{images/results_q1.jpeg}
+      \caption{Result of passing a sinusoidal input through the integrator}
+      \label{fig:results_q1}
+    \end{figure}
 
     % TODO Show calculation that was used to obtain these results
     \begin{itemize}
@@ -161,25 +207,46 @@
       \item[] Phase shift = 1.608 rad or $92.13^{\circ}$, an error of 2.4\%
     \end{itemize}
 
-    Q. What happens if the feedback resistor $R_{F}$ is removed from the circuit? Give reasons.
 
-    $V_{out}=\pm V_{sat}$ due to the capacitor acting as an open circuit at low frequencies. This sends the opamp into an open loop configuraton.
+    \textbf{B}. The feedback resistor $R_F$ is then removed and the effect on the opamp integrator configuration is observed.
 
-    Q. Apply a square wave of 4V peak-to-peak and frequency 2 kHz. What to you see and why?
+    \begin{figure}
+      \includegraphics[scale=0.25]{images/results_q2.jpeg}
+      \caption{The output of the integrator circuit without $R_F$}
+      \label{fig:results_q2}
+    \end{figure}
 
-    A triangular waveform is obtained as a result of the square wave being integrated. \\
+    The output is given by $V_{out}=\pm V_{sat}$ due to the capacitor acting as an open circuit at low frequencies as shown in figure \ref{fig:results_q2}.This sends the opamp into an open loop configuraton.
 
-$C\Delta V=I\Delta t$\\
-Substituting $C=0.01\mu F$, $I=\frac{2}{8k}$, $\Delta t=\frac{0.5}{2000}$, \\
-$\Delta V = 6.25 V$\\
-The output triangular waveform has a peak to peak voltage of around 6.25 V.
 
-    Q. Change the frequency of the square wave input to 130 Hz. What do you observe and why?
+    \textbf{C}. The sinusoidal input is replaced by a square wave of 4$V_{pk-pk}$ amplitude and a frequency of 2kHz to observe the integration operation of the configuration more clearly.
+
+    \begin{figure}
+      % TODO Label Vin and Vout in figure
+      \includegraphics[scale=0.25]{images/results_q3.jpeg}
+      \caption{Result of integrating a square wave}
+      \label{fig:results_q3}
+    \end{figure}
+
+    A triangular waveform is obtained as a result of the square wave being integrated, as shown in figure \ref{fig:results_q3}.
 
     $C\Delta V=I\Delta t$\\
-Substituting $C=0.01\mu F$, $I=\frac{2}{8k}$, $\Delta t=\frac{0.5}{130}$, \\
-$\Delta V = 96.15 V$ \\
-Since $\Delta V > 2V_{sat}$, $V_{out}$ gets clipped.
+    Substituting $C=0.01\mu F$, $I=\frac{2}{8k}$, $\Delta t=\frac{0.5}{2000}$, \\
+    $\Delta V = 6.25 V$\\
+    The output triangular waveform has a peak to peak voltage of around 6.25 V.
+
+    D. The frequency of the input is lowered to 130Hz and the output is observed again on the DSO.
+
+    \begin{figure}
+      \includegraphics[scale=0.25]{images/results_q4_2.jpeg}
+      \caption{Effect of lowering the input frequency on the output}
+      \label{fig:results_q4}
+    \end{figure}
+
+    $C\Delta V=I\Delta t$\\
+    Substituting $C=0.01\mu F$, $I=\frac{2}{8k}$, $\Delta t=\frac{0.5}{130}$, \\
+    $\Delta V = 96.15 V$ \\
+    Since $\Delta V > 2V_{sat}$, $V_{out}$ gets clipped as shown in figure \ref{fig:results_q4}.
 
 
   \newpage

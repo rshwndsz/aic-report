@@ -33,8 +33,8 @@
 \newtheorem{exer}{Exercise}
 \newtheorem{note}{Note}
 
+\usepackage{mwe}
 \usepackage{enumitem}
-
 \usepackage[superscript,biblabel]{cite}
 \usepackage{hyperref}
 \hypersetup{colorlinks,linkcolor={blue},citecolor={blue},urlcolor={orange}}
@@ -59,9 +59,22 @@
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 
 \begin{document}
-  % TODO Add NITK logo
-  % TODO Add 'AIC Report'
-  \maketitle
+  % TODO Check order of names, logo, department, date
+  % TODO Add department
+  % TODO Add date
+  \begin{titlepage}
+    \begin{center}
+      \vspace*{5em}
+      \huge{A Report on}\\
+      \huge{\textbf{Practical integrators using operational amplifiers}}\\
+      \vspace*{2em}
+      \includegraphics[scale=0.5]{logo.png}\\
+    \end{center}
+
+    \vspace*{2em}
+    \hspace*{5em} \large{Russel Shawn Dsouza} \hspace*{5em} \large{Sathvik S. Prabhu}\\
+    \hspace*{6em} \large{171EC143} \hspace*{10em} \large{171EC146}
+  \end{titlepage}
   \thispagestyle{empty}
 
   \newpage
@@ -71,6 +84,7 @@
   \newpage
   \setcounter{page}{1}
   \section{Aim}
+    % TODO Add some filler to Aim?
     To design, implement and test a $\mu$A741-based voltage integrator.
 
 
@@ -235,22 +249,26 @@
 
 
   \newpage
-  \section{Simulation}
-    % TODO Add captions
-    % TODO Arrange
-    \includegraphics[scale=0.25]{sim_circuit}\\
-    \includegraphics[scale=0.25]{sim_plot_fd}\\
-    \includegraphics[scale=0.25]{sim_plot_td}
+  \section[LTSpice]{LTSpice simulation and results\footnote{The .asc file containing the LTSpice schematic can be found at \href{https://github.com/rshwndsz/aic-report/blob/master/lab5.asc}{github.com/rshwndsz/aic-report}.}}
+    % TODO Beautify
 
+    % If LTSpice circuit diagram is required, uncomment below
+    % \begin{figure}[h]
+    %   \centering
+    %   \includegraphics[scale=0.2]{sim_circuit}
+    %   \caption[LTSpice circuit]{The circuit as seen on LTSpice}
+    % \end{figure}
 
-  \newpage
-  \section{Waveforms}
-    % TODO Add captions and labels
-    % TODO Merge with observations
-    % TODO Arrange
-    \includegraphics[scale=0.25]{results_q1}\\
-    \includegraphics[scale=0.25]{results_q3}\\
-    \includegraphics[scale=0.25]{results_q4_2}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[scale=0.25]{sim_plot_fd}
+      \caption{Phase and magnitude response of the practical integrator output}
+    \end{figure}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[scale=0.25]{sim_plot_td}
+      \caption{$V_{out}$ and $V_{in}$ in time domain}
+    \end{figure}
 
 
   \newpage
@@ -263,9 +281,10 @@
     A leading phase sinusoidal wave appears at the output of the integrator as shown in figure \ref{fig:results_q1}.
     The DC gain, -3dB frequency $f_{3dB}$, unity gain frequency $f_u$, roll-off rate and phase shift are noted from the waveforms obtained on the DSO and the phase error is verified to be below 5\%.
 
-    \begin{figure}
-      \includegraphics[scale=0.25]{images/results_q1.jpeg}
-      \caption{Result of passing a sinusoidal input through the integrator; \color{cyan}$V_{out}$ \color{black}\& \color{orange}$V_{in}$}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[scale=0.5]{images/results_q1.jpeg}
+      \caption{Result \color{cyan}$V_{out}$ \color{black}of passing a sinusoidal input \color{orange}{$V_{in}$} \color{black}through the integrator.}
       \label{fig:results_q1}
     \end{figure}
 
@@ -278,48 +297,51 @@
       \item[] Phase shift $\phi$ = $1.608^{c}$ or $92.13^{\circ}$, an error of 2.4\%
     \end{itemize}
 
+    \newpage
     %===B===
     \textbf{B}. The feedback resistor $R_F$ is then removed and the effect on the op-amp integrator configuration is observed.
 
-    \begin{figure}
-      \includegraphics[scale=0.25]{images/results_q2.jpeg}
-      \caption{The output of the integrator circuit without $R_F$}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[scale=0.5]{images/results_q2.jpeg}
+      \caption{The output \color{cyan}$V_{out}$ \color{black}of the integrator circuit without $R_F$}
       \label{fig:results_q2}
     \end{figure}
 
-    The output is given by $V_{out}=\pm V_{sat}$ as the capacitor acts as an open circuit at low frequencies as shown in figure \ref{fig:results_q2}.This sends the op-amp into an open loop configuraton.
+    The output is given by $V_{out}=\pm V_{sat}$ as the capacitor acts as an open circuit at low frequencies as shown in figure \ref{fig:results_q2}. This sends the op-amp into an open loop configuraton.
 
     %===C===
     \textbf{C}. The sinusoidal input is replaced by a square wave of 4$V_{pk-pk}$ amplitude and a frequency of 2kHz to observe the integration operation of the configuration more clearly.
 
-    \begin{figure}
-      \includegraphics[scale=0.25]{images/results_q3.jpeg}
-      \caption{Result of integrating a square wave \color{cyan}$V_{out}$ \color{black}\& \color{orange}$V_{in}$}
+    A triangular waveform is obtained as a result of the square wave being integrated, as shown in figure \ref{fig:results_q3}.
+
+    The peak-to-peak amplitude of the output can be obtained by using the relation
+    $$ C\Delta V = I\Delta t$$
+    Substituting $C=0.01\mu F$, $I=\cfrac{2}{8\times 10^3}$, $\Delta t = \cfrac{0.5}{2000}$,
+    $$ \Delta V = 6.25 V$$
+    The output triangular waveform has a peak to peak voltage of around 6.25 V.
+
+    \textbf{D}. The frequency of the input is lowered to 130Hz and the output is observed again.
+
+    \begin{figure}[!h]
+      \centering
+      \includegraphics[scale=0.5]{images/results_q4_2.jpeg}
+      \caption{Effect of lowering the input frequency on the output \color{cyan}$V_{out}$ \color{black}\& \color{orange}$V_{in}$}
       \label{fig:results_q3}
     \end{figure}
 
-    A triangular waveform is obtained as a result of the square wave being integrated, as shown in figure \ref{fig:results_q3}.
+    Using, $ C\Delta V = I\Delta t$ and substituting $C=0.01\mu F$, $I=\cfrac{2}{8\times 10^3}$, $\Delta t = \cfrac{0.5}{130}$, we get:
+    $$ \Delta V = 96.15 V$$
+    Since $\Delta V > 2V_{sat}$ \text{, } $V_{out}$ gets clipped as shown in figure \ref{fig:results_q4}.
 
-    $C\Delta V=I\Delta t$\\
-    Substituting $C=0.01\mu F$, $I=\frac{2}{8k}$, $\Delta t=\frac{0.5}{2000}$, \\
-    $\Delta V = 6.25 V$\\
-    The output triangular waveform has a peak to peak voltage of around 6.25 V.
-
-    D. The frequency of the input is lowered to 130Hz and the output is observed again on the DSO.
-
-    \begin{figure}
-      \includegraphics[scale=0.25]{images/results_q4_2.jpeg}
-      \caption{Effect of lowering the input frequency on the output \color{cyan}$V_{out}$ \color{black}\& \color{orange}$V_{in}$}
+    \begin{figure}[!h]
+      \centering
+      \includegraphics[scale=0.5]{images/results_q3.jpeg}
+      \caption{Result of integrating a square wave \color{cyan}$V_{out}$ \color{black}\& \color{orange}$V_{in}$}
       \label{fig:results_q4}
     \end{figure}
 
-    $C\Delta V=I\Delta t$\\
-    Substituting $C=0.01\mu F$, $I=\frac{2}{8k}$, $\Delta t=\frac{0.5}{130}$, \\
-    $\Delta V = 96.15 V$ \\
-    Since $\Delta V > 2V_{sat}$, $V_{out}$ gets clipped as shown in figure \ref{fig:results_q4}.
-
-
-  \newpage
+  \clearpage
   \section{Results \& Conclusions}
   % TODO Add more results and better conclusions
   The $\mu$A741 based voltage integrator was designed and implemented successfully.

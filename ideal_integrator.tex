@@ -109,11 +109,6 @@
   \draw[Vref=$v_{out}$]
   (N6-OUT)
       -- (3 GND);
-      % ===Equation:Vout===
-      % node [
-      %     midway,
-      %     % label={[Numbered,black,label distance=5pt]180:\bf 6}
-      % ]{$\bm{v_{out}}$};
 
   %===Virtual Ground===
   \draw[MyArrow]
@@ -132,18 +127,28 @@
           inner sep=10pt,
           anchor=-70,
           % label={[Numbered,black,label distance=0pt]180:\bf 3}
-      ]{$\bm{i_{in}} = \cfrac{\bm{v_{in}}}{R}$};
+      ]{$\bm{i_{in}} = \cfrac{\bm{v_{in}} - 0}{R}$};
 
   %===Ic===
   \draw[MyArrow]
-  (N5)++(0.3,0.3) %node gap
-      -- ++(2,0) % Arrow longitude
+  (N2)++(-0.3, 0.3) %node gap
+      -- ++(0, 2)
+      -- ++(3, 0) % Arrow longitude
       node [
-          midway,
-          inner sep=10pt,
-          anchor=-80,
-          % label={[Numbered,black,label distance=0pt]180:\bf 5}
-      ]{$\bm{i_C}$};
+        midway,
+        inner sep = 10pt,
+        anchor = -80,
+      ]{$\bm{I_C} = C\cfrac{d(\bm{v_{out}} - 0)}{dt}$};
+
+  %===Ioa===
+  \draw[MyArrow]
+  (N2)++(0.3, 0.3)
+      -- ++(1.5, 0)
+      node [
+        midway,
+        inner sep = 10pt,
+        anchor = -80
+      ]{$I_{OA} = 0$};
 
   \end{tikzpicture}
 \end{document}

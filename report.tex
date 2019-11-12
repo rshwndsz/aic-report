@@ -63,9 +63,6 @@
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 
 \begin{document}
-  % TODO Check order of names, logo, department, date
-  % TODO Add department
-  % TODO Add date
   \begin{titlepage}
     \begin{center}
       \LARGE{\textbf{Analog Integrated Circuits Lab}}\\
@@ -84,8 +81,8 @@
     \includegraphics[scale=0.5]{logo.png}\\
     \vspace*{3em}
     Department of Electronics and Communication Engg.\\
-National Institute of Technology Karnataka, Surathkal\\
-Srinivasanagar 575 025, Karnataka, India
+    National Institute of Technology Karnataka, Surathkal\\
+    Srinivasanagar 575 025, Karnataka, India
     \end{center}
   \end{titlepage}
   \thispagestyle{empty}
@@ -97,9 +94,7 @@ Srinivasanagar 575 025, Karnataka, India
   \newpage
   \setcounter{page}{1}
   \section{Aim}
-    % TODO Add some filler to Aim?
-    To design, implement and test a $\mu$A741-based voltage integrator.
-
+    To design, simulate, implement and test a $\mu$A741-based practical voltage integrator.
 
   \section*{Components required}
     \begin{itemize}
@@ -277,6 +272,13 @@ Srinivasanagar 575 025, Karnataka, India
       \caption{Circuit showing the final design}
       \label{fig:designed_practical_integrator}
     \end{figure}
+
+    % Uncomment to include LTSpice circuit
+    % \begin{figure}[h]
+    %   \centering
+    %   \includegraphics[scale=0.3]{images/sim_circuit.png}
+    %   \caption{Circuit as drafted on LTSpice}
+    % \end{figure}
 
   \newpage
   \section{Theory}
@@ -720,14 +722,6 @@ Srinivasanagar 575 025, Karnataka, India
 
   \newpage
   \section[LTSpice simulation and results]{LTSpice simulation and results\footnote{The .asc file containing the LTSpice schematic can be found at \href{https://github.com/rshwndsz/aic-report/blob/master/lab5.asc}{github.com/rshwndsz/aic-report}.}}
-    % TODO Beautify
-
-    % If LTSpice circuit diagram is required, uncomment below
-    % \begin{figure}[h]
-    %   \centering
-    %   \includegraphics[scale=0.2]{sim_circuit}
-    %   \caption[LTSpice circuit]{The circuit as seen on LTSpice}
-    % \end{figure}
 
     \begin{figure}[h]
       \centering
@@ -813,15 +807,15 @@ Srinivasanagar 575 025, Karnataka, India
 
   \clearpage
   \section{Results \& Conclusions}
-  % TODO Add more results and better conclusions
-  The $\mu$A741 based voltage integrator was designed and implemented successfully.
-  
-% \begin{enumerate}
-%  \item The output waveform for the given input was obtained with a phase of 92.13^{\circ} , an error of 2.4\%.
-%  \item The ouput voltage saturates at V_{sat} at low frequencies, when the resistor R_{F} is removed.
-%  \item A triangular waveform is observed when a square wave is given as input. This waveform gets clipped at low frequencies.
-% \end{enumerate}
-  
-  It can therefore be seen that a practical integrator, which has a resistor $R_{F}$ in parallel with capacitor C, overcomes the drawbacks of an ideal integrator. 
+  The op-amp based practical voltage integrator was designed subject to the given contraints, simulated in LTSpice and then implemented using the $\mu $A741 IC on a breadboard. The outputs were tested for sinusoidal and square wave at high and low input frequencies to understand the limitations of such a design.
+
+  All the observations made during the testing of the physical circuit are listed below in brief.
+  \begin{enumerate}
+  \item The output waveform for the given sinusoidal input was obtained with a phase of $92.13^{\circ}$ resulting in a phase error of 2.4\%, well within the limit of 5\% specified in the given constraints.
+  \item The ouput voltage was observed to saturate at $V_{sat}$ at low frequencies, when the resistor $R_{F}$ was removed.
+  \item A triangular waveform was obtained when a square wave was given as input. This waveform was observed to be clipped at low frequencies.
+  \end{enumerate}
+
+  It can therefore be seen that an op-amp based practical integrator, which has a resistor $R_{F}$ in parallel with the capacitor $C$, overcomes the drawbacks of an ideal op-amp based integrator.
 
 \end{document}

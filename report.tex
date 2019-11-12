@@ -635,7 +635,7 @@
           ]{$\bm{i_{R_F}}$};
 
       \end{tikzpicture}
-      \caption{Practical integrator circuit}
+      \caption{Practical op-amp integrator}
       \label{fig:theoretical_practical_integrator}
     \end{figure}
 
@@ -652,7 +652,7 @@
       H(j\omega) &= \frac{-R_{F}}{R} \left[ \frac{1}{1+R_{F}Cj\omega} \right] \label{eq:freq_response}
     \end{align}
 
-    The magnitude and phase response are given by,
+    The \underline{magnitude and phase response} are given by,
     \begin{align*}
     |H(j\omega)| &= \cfrac{R_{F}}{R}\cfrac{1}{\sqrt{1+\omega^{2}R_{F}^{2}C^{2}}} \\
     \angle H(j\omega) &= \pi - tan^{-1}(\omega R_{F}C)
@@ -682,7 +682,19 @@
       \implies \omega_u &= \cfrac{1}{RC} \text{ or } f_u = \cfrac{1}{2\pi RC}\numberthis \label{eq:unity_gain_bw}
     \end{align*}
 
-    \underline{Roll-off rate} of the frequency response is theoretically -20 dB/decade.
+    \underline{Roll-off rate} for the frequency response of a first order low-pass filter is theoretically -20 dB/decade.
+    It can be obtained by subtracting the decibel values of magnitude response $|H(j\omega)|$ at 2 frequencies $\omega_1$ and $\omega_2$ such that $\cfrac{\omega_1}{\omega_2} = 10$.
+    \begin{align*}
+      |H(j\omega)| &= \cfrac{R_{F}}{R} \cfrac{1}{\sqrt{1+\omega^2 R_F^2 C^2}}\\
+      \intertext{By amplitude and frequency scaling, the above can be written as}\\
+      |H(j\omega)|^2 &= \cfrac{1}{1 + \omega^2}\\
+      \intertext{In decibels, this becomes}\\
+      |H(j\omega)|^2 &= 10\log_{10}\left(\cfrac{1}{1 + \omega^2}\right) \approx -10\log_{10}\left(\omega^2 \right)\\
+      \intertext{Roll-off is given by }\\
+      \Delta &= 10\log_{10}\left(\cfrac{\omega_2}{\omega_1}\right) \\
+      \intertext{From the condition on $\omega_1$ and $\omega_2$, this gives}\\
+      \text{Roll-off} &= 20 \text{dB/decade}
+    \end{align*}
 
   \newpage
   \section{Design}

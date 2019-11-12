@@ -51,6 +51,9 @@
 }
 \date{13 November 2019}
 
+% Vertical spacing for aligned equations
+\setlength{\jot}{10pt}
+
 \begin{document}
   % TODO Add NITK logo
   % TODO Add 'AIC Report' and date
@@ -79,26 +82,55 @@
     \end{itemize}
 
 
-  \section*{Circuit diagram}
-    % TODO Add circuit in LaTeX
-    \begin{figure}
-      \includegraphics[scale=0.5]{circuit}
+  \newpage
+  \section{Circuit diagram}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[scale=0.25]{practical_integrator.png}
+      % TODO Add better caption that is not repeating the section heading
       \caption{Circuit diagram}
-      \label{fig:theoretical_circuit}
-    \end{figure}
-
-    \begin{figure}
-      \includegraphics[scale=0.25]{practical_circuit}
-      \caption{Designed circuit implemented on a breadboard}
-      \label{fig:practical_circuit}
+      \label{fig:theoretical_practical_integrator}
     \end{figure}
 
   \newpage
   \section{Theory}
     % TODO Complete Theory
-    In an integrator, the output voltage is proportional to the integral of the input.
-    The response of an opamp circuit with feedback will reflect the characteristics of the feedback elements.
-    In order to achieve integration, the feedback network is constructed using a capacitor.
+    The operational amplifier based integrator performs the mathematical operation of integration with respect to time, i.e. its output is proportional to the input voltage integrated over time.
+    The integrator circuit is mostly used in analog computers, analog-to-digital converters and wave-shaping circuits such as charge amplifiers.
+
+    The response of an opamp circuit with feedback reflects the characteristics of the feedback elements. Thus, in order to achieve integration, the feedback network is constructed using a capacitor.
+
+    An operational amplifier based integrator can ideally be constructed as shown in figure \ref{fig:theoretical_ideal_integrator}.
+
+    \begin{figure}[h]
+      \centering
+      \includegraphics[scale=0.25]{images/ideal_integrator.png}
+      \caption{Ideal opamp based integrator}
+      \label{fig:theoretical_ideal_integrator}
+    \end{figure}
+
+    The circuit can be analysed by applying Kirchhoff's current law at the node $V_n$, keeping ideal op-amp behaviour in mind.
+    \begin{equation}\label{eq:ideal_kcl_vn}
+      i_{in} = I_C = \cfrac{V_{in}}{R}
+    \end{equation}
+
+    The relationship between between the capacitor's voltage and current is modelled as:
+    \begin{equation}\label{eq:ideal_i-v_cap}
+      I_C = C\cfrac{dV_C}{dt}
+    \end{equation}
+
+    Substituting eq. \ref{eq:ideal_kcl_vn} in eq. \ref{eq:ideal_i-v_cap}:
+    \begin{align*}
+      \cfrac{v_{in} - 0}{R} &= C\cfrac{d(0 - v_{out})}{dt}
+      \implies \cfrac{v_{in}}{R} = -C\cfrac{dv_{out}}{dt}
+    \end{align*}
+
+    Integrating both sides with respect to time:
+    \begin{align*}
+      \int_0^t {\cfrac{v_{in}}{R}} &= - \int_0^t {\cfrac{dv_{out}}{dt}dt} \\
+      v_{out} &= -\cfrac{1}{RC} \int_0^t {\cfrac{dv_{out}}{dt}}
+    \end{align*}
+    Thus the output of the circuit shown in figure \ref{fig:theoretical_ideal_integrator} is the inverted, integrated input with a gain of $\cfrac{1}{RC}$.
 
     In a practical integrator, one can overcome the limitations of an ideal integrator by adding resistor $R_{f}$ in parallel with capacitor $C$.
     $R_{f}$ prevents the opamp from going into open loop configuration at low frequencies.
@@ -115,7 +147,7 @@
     \angle H(j\omega) &= \pi - tan^{-1}(\omega R_{F}C)
     \end{align*}
 
-    \underline{DC gain} is obtained by putting $\omega = 0$ in equation\ref{eq:freq_response}.
+    \underline{DC gain} is obtained by putting $\omega = 0$ in equation \ref{eq:freq_response}.
     \begin{equation}
       DC gain = H(j0) = -\frac{R_f}{R}
     \end{equation}
@@ -184,9 +216,10 @@
 
   \newpage
   \section{Observations}
+    %===A===
     \textbf{A}. The practical integrator is first designed based on the following constraints:
     Unity gain, $f_{-3dB} = f_{in}/15$ for a sinusoidal input
-    $v_{in} = 2 sin(4000\pi t)$ and phase error below 5\%.
+    $v_{in} = 2 sin(4000\pi t)$ and a phase error below 5\%.
 
     A leading phase sinusoidal wave appears at the output of the integrator as shown in figure \ref{fig:results_q1}.
     The DC gain, -3dB frequency $f_{3dB}$, unity gain frequency $f_u$, roll-off rate and phase shift are noted from the waveforms obtained on the DSO and the phase error is verified to be below 5\%.
@@ -201,13 +234,13 @@
     % TODO Show calculation that was used to obtain these results
     \begin{itemize}
       \item[] DC gain = 14.89
-      \item[] -3dB frequency = 132 Hz
-      \item[] Unity gain frequency = 2.07 kHz
+      \item[] -3dB frequency $f_{-3dB}$ = 132 Hz
+      \item[] Unity gain frequency $f_u$ = 2.07 kHz
       \item[] Roll-off rate = -18.35 dB/decade
-      \item[] Phase shift = 1.608 rad or $92.13^{\circ}$, an error of 2.4\%
+      \item[] Phase shift $\phi$ = $1.608^{c}$ or $92.13^{\circ}$, an error of 2.4\%
     \end{itemize}
 
-
+    %===B===
     \textbf{B}. The feedback resistor $R_F$ is then removed and the effect on the opamp integrator configuration is observed.
 
     \begin{figure}
@@ -218,7 +251,7 @@
 
     The output is given by $V_{out}=\pm V_{sat}$ due to the capacitor acting as an open circuit at low frequencies as shown in figure \ref{fig:results_q2}.This sends the opamp into an open loop configuraton.
 
-
+    %===C===
     \textbf{C}. The sinusoidal input is replaced by a square wave of 4$V_{pk-pk}$ amplitude and a frequency of 2kHz to observe the integration operation of the configuration more clearly.
 
     \begin{figure}

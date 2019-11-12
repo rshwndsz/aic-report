@@ -33,6 +33,8 @@
 \newtheorem{exer}{Exercise}
 \newtheorem{note}{Note}
 
+\usepackage{enumitem}
+
 \usepackage[superscript,biblabel]{cite}
 \usepackage{hyperref}
 \hypersetup{colorlinks,linkcolor={blue},citecolor={blue},urlcolor={orange}}
@@ -53,10 +55,12 @@
 
 % Vertical spacing for aligned equations
 \setlength{\jot}{10pt}
+% https://tex.stackexchange.com/a/42728
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 
 \begin{document}
   % TODO Add NITK logo
-  % TODO Add 'AIC Report' and date
+  % TODO Add 'AIC Report'
   \maketitle
   \thispagestyle{empty}
 
@@ -67,12 +71,12 @@
   \newpage
   \setcounter{page}{1}
   \section{Aim}
-  To design, implement and test a $\mu$A741-based voltage integrator.
+    To design, implement and test a $\mu$A741-based voltage integrator.
 
 
   \section*{Components required}
     \begin{itemize}
-      \item $\mu$A741 OpAmp
+      \item $\mu$A741 op-amp
       \item Resistors R = 120k$\Omega$, 3.3k$\Omega$, 4.7k$\Omega$
       \item Capacitor C = 0.01 $\mu$F
       \item Signal generator
@@ -86,26 +90,26 @@
   \section{Circuit diagram}
     \begin{figure}[h]
       \centering
-      \includegraphics[scale=0.25]{practical_integrator.png}
-      % TODO Add better caption that is not repeating the section heading
-      \caption{Circuit diagram}
-      \label{fig:theoretical_practical_integrator}
+      \includegraphics[scale=0.25]{images/designed_practical_integrator.png}
+      \caption{Circuit showing the final design}
+      \label{fig:designed_practical_integrator}
     \end{figure}
 
   \newpage
   \section{Theory}
-    % TODO Complete Theory
+    %===Basics of op-amp integrator===
     The operational amplifier based integrator performs the mathematical operation of integration with respect to time, i.e. its output is proportional to the input voltage integrated over time.
     The integrator circuit is mostly used in analog computers, analog-to-digital converters and wave-shaping circuits such as charge amplifiers.
 
-    The response of an opamp circuit with feedback reflects the characteristics of the feedback elements. Thus, in order to achieve integration, the feedback network is constructed using a capacitor.
+    The response of an op-amp circuit with feedback reflects the characteristics of the feedback elements. Thus, in order to achieve integration, the feedback network is constructed using a capacitor.
 
+    %===Ideal op-amp integrator===
     An operational amplifier based integrator can ideally be constructed as shown in figure \ref{fig:theoretical_ideal_integrator}.
 
     \begin{figure}[h]
       \centering
       \includegraphics[scale=0.25]{images/ideal_integrator.png}
-      \caption{Ideal opamp based integrator}
+      \caption{Ideal op-amp based integrator}
       \label{fig:theoretical_ideal_integrator}
     \end{figure}
 
@@ -132,86 +136,121 @@
     \end{align*}
     Thus the output of the circuit shown in figure \ref{fig:theoretical_ideal_integrator} is the inverted, integrated input with a gain of $\cfrac{1}{RC}$.
 
-    In a practical integrator, one can overcome the limitations of an ideal integrator by adding resistor $R_{f}$ in parallel with capacitor $C$.
-    $R_{f}$ prevents the opamp from going into open loop configuration at low frequencies.
+    %===Limitations of ideal integrator===
+    The ideal integrator suffers from two main limitations. One comes from the fact that the output volatage of the op-amp cannot exceed the supply voltage.
+    The output of the integrator is inversely proportional to the time constant $\tau = RC$.
+    The larger the time constant $\tau$ ,the longer it takes to saturate the integrator.
+    The second limitation is a consequence of the offset voltage present even for zero input.
+    It may be only a few milivolts, but this gets integrated over time and it eventually drives the op-amp to saturation.
 
-    Frequency response of a practical integrator is given by,
-    \begin{align}\label{eq:freq_response}
+    %===Practical op-amp integrator===
+    One can overcome the limitations of an ideal integrator by adding a resistor $R_{f}$ in parallel with capacitor $C$ as shown in figure \ref{fig:theoretical_practical_integrator}. $R_{f}$ prevents the op-amp from going into open loop configuration at low frequencies.
+
+    \begin{figure}[h]
+      \centering
+      \includegraphics[scale=0.23]{images/practical_integrator.png}
+      \caption{Practical integrator circuit}
+      \label{fig:theoretical_practical_integrator}
+    \end{figure}
+
+    The resulting circuit is an inverting amplifier with $R_F||\cfrac{1}{Cs}$ acting as the feedback resistance.
+    The gain of such an amplifier is given by:
+    \begin{align*}
+      \cfrac{V_{out}(s)}{V_{in}(s)} &= - \cfrac{R_F||\cfrac{1}{Cs}}{R}\\
+      &= - \cfrac{R_F}{R} \cfrac{1}{(1 + R_F Cs)}
+    \end{align*}
+
+    Thus, the frequency response of the practical integrator is given by,
+    \begin{align}
       H(s) &= \frac{-R_{F} || \frac{1}{Cs}}{R} \\
-      H(j\omega) &= \frac{-R_{F}}{R} \left[ \frac{1}{1+R_{F}Cj\omega} \right]
+      H(j\omega) &= \frac{-R_{F}}{R} \left[ \frac{1}{1+R_{F}Cj\omega} \right] \label{eq:freq_response}
     \end{align}
 
     The magnitude and phase response are given by,
     \begin{align*}
-    |H(j\omega)| &= \frac{R_{F}}{R}\frac{1}{\sqrt{1+\omega^{2}R_{F}^{2}C^{2}}} \\
+    |H(j\omega)| &= \cfrac{R_{F}}{R}\cfrac{1}{\sqrt{1+\omega^{2}R_{F}^{2}C^{2}}} \\
     \angle H(j\omega) &= \pi - tan^{-1}(\omega R_{F}C)
     \end{align*}
 
     \underline{DC gain} is obtained by putting $\omega = 0$ in equation \ref{eq:freq_response}.
     \begin{equation}
-      DC gain = H(j0) = -\frac{R_f}{R}
+      \text{DC gain} = H(j0) = -\frac{R_f}{R} \equiv -20\log_{10}(\cfrac{R_F}{R}) \text{ dB}
     \end{equation}
 
-    % TODO Add derivation
-    \underline{Phase shift} is given by
+    \underline{Phase shift} $\Delta\phi$ between the input and output signals is given by
     \begin{equation}\label{eq:phase_shift}
-      \phi = \pi - \tan^{-1}(\omega R_FC)
+      \Delta\phi = \pi - \tan^{-1}(\omega R_FC)
     \end{equation}
 
-    % TODO Add derivation
-    \underline{$f_{-3dB}$} or cutoff-frequency is given by
+    The practical integrator acts as a first order filter with corner frequency (also cut-off or pole frequency) at $f = -1/R_FC$.
+    Thus, \underline{$f_{-3dB}$} or \underline{cutoff-frequency} is given by
     \begin{equation}\label{eq:f3db}
-      f_{-3dB} = \frac{1}{2\pi R_FC}
+      f_{-3dB} = \cfrac{1}{2\pi R_FC}
     \end{equation}
 
-    % TODO Add derivation
-    \underline{$\omega_u$} or unity gain bandwidth is obtained from $|H(j\omega)| = 1$ giving,
-    \begin{equation}\label{eq:unity_gain_bw}
-      \omega_u = \frac{1}{RC}
-    \end{equation}
+    \underline{Unity gain bandwidth} $\omega_u$ is obtained from $|H(j\omega)| = 1$:
+    \begin{align*}
+      H(j\omega) = 1 &= \cfrac{R_{F}}{R}\cfrac{1}{\sqrt{1+\omega^{2}R_{F}^{2}C^{2}}} \\
+      \left(\cfrac{R_F}{R}\right)^2 &= 1 + (\omega R_FC)^2 \\
+      \left(\cfrac{R_F}{R}\right)^2 &\approx (\omega R_FC)^2 & \left(\text{for } \cfrac{R_F}{R} \gg 1\right)\\
+      \implies \omega_u &= \cfrac{1}{RC} \text{ or } f_u = \cfrac{1}{2\pi RC}\numberthis \label{eq:unity_gain_bw}
+    \end{align*}
 
-    % TODO Add reason/derivation
-    \underline{Roll-off rate} for the frequency response of the practical integrator is theoretically -20 $\frac{\text{dB}}{\text{decade}}$.
+    \underline{Roll-off rate} of the frequency response is theoretically -20 dB/decade.
 
   \newpage
   \section{Design}
-    % TODO Stepwise design
-    Q. Design a $\mu$A741 based voltage integrator with unity gain and
-    $f_{-3dB} = f_{in}/15$ for a sinusoidal input
-    $v_{in} = 2 sin(4000\pi t)$, keeping the phase error below 5\%.
+    The practical integrator is designed for the following constraints
+    \begin{enumerate}[topsep=1pt, label=(\alph*)]
+      \item Unity gain
+      \item $v_{in} = 2sin(4000\pi t)$
+      \item $f_{-3dB} = \cfrac{f_{in}}{15}$
+      \item Phase error tolerance of 5\%
+    \end{enumerate}
+
+    The provided input is $v_{in} = 2 sin(4000\pi t)$ which can be compared with the general equation for sinusoidal waveforms $A sin(2\pi ft)$ to obtain \underline{$f_{in} = 2000\text{Hz}$}.
+
+    From the constraint list the value of \underline{$f_{-3dB}$} is obtained as:
     \begin{align*}
-        \text{Let C} \! &=0.01\mu F , \\
-        f_{in} &=2000 Hz\\
-        f_{-3dB} &=\frac{f_{in}}{15} = 133.33 Hz \\
-        \frac{1}{2\pi R_{F}C} &= 133.33\\
-        \frac{1}{2\pi RC} &= 2000\\
-        R &=7.96k\Omega\\
-        R_{F} &=119.37k\Omega\\
+      f_{-3dB} &= \cfrac{f_{in}}{15}
+      \implies f_{-3dB} = 133.33\text{Hz}
     \end{align*}
 
+    Using equation \ref{eq:f3db}, and assuming \underline{$C = 0.01\mu F$}, the value of \underline{$R_F$} comes out to be:
+    \begin{align*}
+      f_{-3dB} &= \cfrac{1}{2\pi R_FC} \\
+      R_F &= \cfrac{1}{2\pi f_{-3dB}C} \\
+      &= \cfrac{1}{2\pi \times 133.33 \times 0.01 \times 10^{-6}} \\
+      &= 119.37k\Omega \approx 120k\Omega
+    \end{align*}
 
-  \section{Calculations}
-  % TODO Merge calculations with stepwise design
-  \begin{align*}
-    \text{Expected DC gain} &= \frac{R_{f}}{R}=15.25\\
-    \text{Expected phase shift} &= \frac{\pi}{2}=1.57 rad
-  \end{align*}
+    From the unity gain constraint, the output has to have the same amplitude as the input at $f_in = 2000\text{Hz}$.
+    Using equation \ref{eq:unity_gain_bw}, the value of \underline{$R$} comes out to be:
+    \begin{align*}
+      f_u &= \cfrac{1}{2\pi RC} \\
+      R &= \cfrac{1}{2\pi f_uC}\\
+      &= \cfrac{1}{2\pi \times 2000 \times 0.01 \times 10^{-6}} \\
+      &= 7.96k\Omega \approx 8k\Omega
+    \end{align*}
 
 
   \newpage
   \section{Simulation}
-    % TODO Convert to white background images
-    % TODO Add captions and labels
-    \includegraphics[width=\textwidth]{sim_plot1}
-    \includegraphics[width=\textwidth]{sim_plot2}
+    % TODO Add captions
+    % TODO Arrange
+    \includegraphics[scale=0.25]{sim_circuit}\\
+    \includegraphics[scale=0.25]{sim_plot_fd}\\
+    \includegraphics[scale=0.25]{sim_plot_td}
 
 
   \newpage
   \section{Waveforms}
     % TODO Add captions and labels
-    \includegraphics[width=\textwidth/2]{results_q1}
-    \includegraphics[width=\textwidth/2]{results_q3}
-    \includegraphics[width=\textwidth/2]{results_q4_2}
+    % TODO Merge with observations
+    % TODO Arrange
+    \includegraphics[scale=0.25]{results_q1}\\
+    \includegraphics[scale=0.25]{results_q3}\\
+    \includegraphics[scale=0.25]{results_q4_2}
 
 
   \newpage
@@ -225,13 +264,12 @@
     The DC gain, -3dB frequency $f_{3dB}$, unity gain frequency $f_u$, roll-off rate and phase shift are noted from the waveforms obtained on the DSO and the phase error is verified to be below 5\%.
 
     \begin{figure}
-      % TODO Add labels for Vin and Vout
       \includegraphics[scale=0.25]{images/results_q1.jpeg}
-      \caption{Result of passing a sinusoidal input through the integrator}
+      \caption{Result of passing a sinusoidal input through the integrator; \color{cyan}$V_{out}$ \color{black}\& \color{orange}$V_{in}$}
       \label{fig:results_q1}
     \end{figure}
 
-    % TODO Show calculation that was used to obtain these results
+    The observed parameters are listed below.
     \begin{itemize}
       \item[] DC gain = 14.89
       \item[] -3dB frequency $f_{-3dB}$ = 132 Hz
@@ -241,7 +279,7 @@
     \end{itemize}
 
     %===B===
-    \textbf{B}. The feedback resistor $R_F$ is then removed and the effect on the opamp integrator configuration is observed.
+    \textbf{B}. The feedback resistor $R_F$ is then removed and the effect on the op-amp integrator configuration is observed.
 
     \begin{figure}
       \includegraphics[scale=0.25]{images/results_q2.jpeg}
@@ -249,15 +287,14 @@
       \label{fig:results_q2}
     \end{figure}
 
-    The output is given by $V_{out}=\pm V_{sat}$ due to the capacitor acting as an open circuit at low frequencies as shown in figure \ref{fig:results_q2}.This sends the opamp into an open loop configuraton.
+    The output is given by $V_{out}=\pm V_{sat}$ as the capacitor acts as an open circuit at low frequencies as shown in figure \ref{fig:results_q2}.This sends the op-amp into an open loop configuraton.
 
     %===C===
     \textbf{C}. The sinusoidal input is replaced by a square wave of 4$V_{pk-pk}$ amplitude and a frequency of 2kHz to observe the integration operation of the configuration more clearly.
 
     \begin{figure}
-      % TODO Label Vin and Vout in figure
       \includegraphics[scale=0.25]{images/results_q3.jpeg}
-      \caption{Result of integrating a square wave}
+      \caption{Result of integrating a square wave \color{cyan}$V_{out}$ \color{black}\& \color{orange}$V_{in}$}
       \label{fig:results_q3}
     \end{figure}
 
@@ -272,7 +309,7 @@
 
     \begin{figure}
       \includegraphics[scale=0.25]{images/results_q4_2.jpeg}
-      \caption{Effect of lowering the input frequency on the output}
+      \caption{Effect of lowering the input frequency on the output \color{cyan}$V_{out}$ \color{black}\& \color{orange}$V_{in}$}
       \label{fig:results_q4}
     \end{figure}
 
@@ -284,6 +321,7 @@
 
   \newpage
   \section{Results \& Conclusions}
-    % TODO Add more results and better conclusions
-    The $\mu$A741 based voltage integrator was designed and implemented successfully.
+  % TODO Add more results and better conclusions
+  The $\mu$A741 based voltage integrator was designed and implemented successfully.
+
 \end{document}

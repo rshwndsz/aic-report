@@ -95,11 +95,13 @@
   \newpage
   \section{Theory}
     % TODO Complete Theory
+    %===Basics of opamp integrator===
     The operational amplifier based integrator performs the mathematical operation of integration with respect to time, i.e. its output is proportional to the input voltage integrated over time.
     The integrator circuit is mostly used in analog computers, analog-to-digital converters and wave-shaping circuits such as charge amplifiers.
 
     The response of an opamp circuit with feedback reflects the characteristics of the feedback elements. Thus, in order to achieve integration, the feedback network is constructed using a capacitor.
 
+    %===Ideal opamp integrator===
     An operational amplifier based integrator can ideally be constructed as shown in figure \ref{fig:theoretical_ideal_integrator}.
 
     \begin{figure}[h]
@@ -132,6 +134,7 @@
     \end{align*}
     Thus the output of the circuit shown in figure \ref{fig:theoretical_ideal_integrator} is the inverted, integrated input with a gain of $\cfrac{1}{RC}$.
 
+    %===Practical opamp integrator===
     In a practical integrator, one can overcome the limitations of an ideal integrator by adding resistor $R_{f}$ in parallel with capacitor $C$.
     $R_{f}$ prevents the opamp from going into open loop configuration at low frequencies.
 
@@ -173,6 +176,8 @@
     % TODO Add reason/derivation
     \underline{Roll-off rate} for the frequency response of the practical integrator is theoretically -20 $\frac{\text{dB}}{\text{decade}}$.
 
+    %===Advantages of practical over ideal===
+
   \newpage
   \section{Design}
     % TODO Stepwise design
@@ -202,8 +207,9 @@
   \section{Simulation}
     % TODO Convert to white background images
     % TODO Add captions and labels
-    \includegraphics[width=\textwidth]{sim_plot1}
-    \includegraphics[width=\textwidth]{sim_plot2}
+    \includegraphics[width=\textwidth]{sim_circuit}
+    \includegraphics[width=\textwidth]{sim_plot_fd}
+    \includegraphics[width=\textwidth]{sim_plot_td}
 
 
   \newpage

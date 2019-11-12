@@ -86,10 +86,10 @@
   \section{Circuit diagram}
     \begin{figure}[h]
       \centering
-      \includegraphics[scale=0.25]{practical_integrator.png}
+      \includegraphics[scale=0.25]{images/designed_practical_integrator.png}
       % TODO Add better caption that is not repeating the section heading
       \caption{Circuit diagram}
-      \label{fig:theoretical_practical_integrator}
+      \label{fig:designed_practical_integrator}
     \end{figure}
 
   \newpage
@@ -134,14 +134,29 @@
     \end{align*}
     Thus the output of the circuit shown in figure \ref{fig:theoretical_ideal_integrator} is the inverted, integrated input with a gain of $\cfrac{1}{RC}$.
 
-    %===Practical opamp integrator===
-    In a practical integrator, one can overcome the limitations of an ideal integrator by adding resistor $R_{f}$ in parallel with capacitor $C$.
-    $R_{f}$ prevents the opamp from going into open loop configuration at low frequencies.
+    %===Limitations of ideal integrator===
 
-    Frequency response of a practical integrator is given by,
-    \begin{align}\label{eq:freq_response}
+    %===Practical opamp integrator===
+    One can overcome the limitations of an ideal integrator by adding a resistor $R_{f}$ in parallel with capacitor $C$ as shown in figure \ref{fig:theoretical_practical_integrator}. $R_{f}$ prevents the opamp from going into open loop configuration at low frequencies.
+
+    \begin{figure}[h]
+      \centering
+      \includegraphics[scale=0.23]{images/practical_integrator.png}
+      \caption{Practical integrator circuit}
+      \label{fig:theoretical_practical_integrator}
+    \end{figure}
+
+    The resulting circuit is an inverting amplifier with $R_F||\cfrac{1}{Cs}$ acting as the feedback resistance.
+    The gain of such an amplifier is given by:
+    \begin{align*}
+      \cfrac{V_{out}(s)}{V_{in}(s)} &= - \cfrac{R_F||\cfrac{1}{Cs}}{R}\\
+      &= - \cfrac{R_F}{R} \cfrac{1}{(1 + R_F Cs)}
+    \end{align*}
+
+    Thus, the frequency response of the practical integrator is given by,
+    \begin{align}
       H(s) &= \frac{-R_{F} || \frac{1}{Cs}}{R} \\
-      H(j\omega) &= \frac{-R_{F}}{R} \left[ \frac{1}{1+R_{F}Cj\omega} \right]
+      H(j\omega) &= \frac{-R_{F}}{R} \left[ \frac{1}{1+R_{F}Cj\omega} \right] \label{eq:freq_response}
     \end{align}
 
     The magnitude and phase response are given by,
@@ -152,7 +167,7 @@
 
     \underline{DC gain} is obtained by putting $\omega = 0$ in equation \ref{eq:freq_response}.
     \begin{equation}
-      DC gain = H(j0) = -\frac{R_f}{R}
+      \text{DC gain} = H(j0) = -\frac{R_f}{R} \equiv -20\log_{10}(\cfrac{R_F}{R}) \text{ dB}
     \end{equation}
 
     % TODO Add derivation
@@ -174,7 +189,7 @@
     \end{equation}
 
     % TODO Add reason/derivation
-    \underline{Roll-off rate} for the frequency response of the practical integrator is theoretically -20 $\frac{\text{dB}}{\text{decade}}$.
+    \underline{Roll-off rate} of the frequency response is theoretically -20 dB/decade.
 
     %===Advantages of practical over ideal===
 
